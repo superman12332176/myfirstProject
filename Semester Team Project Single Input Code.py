@@ -37,3 +37,44 @@
 ##################################################
 
 #Insert Python code here and remember to document what you do
+
+##########################################################################################################################################################
+
+#22nd March, Oakley edited the Bandit event
+
+#I totally didn't see that we had made this our change log (╥﹏╥). That being said, I edited the bandit event and added an "in code change log." Here's that
+#code:
+
+_____________________________________________________________________________________
+elif event_roll == 2:
+            print("\n>> EVENT: BANDITS! They attack your wagon.")
+
+            while True:
+                choice_bandit = input("Do you (1) Fight or (2) Surrender some supplies? ")
+                
+                if choice_bandit == "1":
+                    if random.random() < 0.5:
+                        print("You scared off the bandits! But you were injured. Health -1.")
+                        health -= 1
+                    else:
+                        print("The bandits overwhelmed you. Health -2, Food -10.")
+                        health -= 2
+                        food -= 10
+                    break 
+                    
+                elif choice_bandit == "2":
+                    print("You gave them some food to avoid a fight. Food -15.")
+                    food -= 15
+                    break 
+                    
+                else:
+                    print("Invalid choice! The bandits are drawing their weapons. Pick 1 or 2.")
+__________________________________________________________________________________________________________
+
+#By changing it to a "while" statment and adding a "pick 1 or 2" we can make sure the user picks their intended choice.
+
+#End comment
+
+###############################################################################################################################
+
+
