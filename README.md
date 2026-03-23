@@ -1,4 +1,4 @@
-Change log has been moved to the head of the .py file as of 3/22/2026.
+Change log has been moved from the README.md file to the head of the .py file as of 3/22/2026.
 New files have been added to the main branch:
 ROADMAP.md is for things we would like to add. These can be new feature, or changes to how the program itself functions.
 STATUS.md is for any bugs, issues, or redundancies discovered. 
