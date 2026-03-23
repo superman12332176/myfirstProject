@@ -1,3 +1,11 @@
+#---- CHANGE LOG ----
+# Name  -  Change Comment  -  Date
+
+#Oakley - Added change log at the top of the file - 3/22/2026
+#Oakley - Changed lines for "elif event_roll == 2" in random trail events to only allow intigers 1 and 2 to progress the code - 3/22/2026
+
+
+
 import random
 
 print("Welcome to the Python Trail!")
@@ -134,18 +142,29 @@ while not game_over:
 
         elif event_roll == 2:
             print("\n>> EVENT: BANDITS! They attack your wagon.")
-            choice_bandit = input("Do you (1) Fight or (2) Surrender some supplies? ")
-            if choice_bandit == "1":
-                if random.random() < 0.5:
-                    print("You scared off the bandits! But you were injured. Health -1.")
-                    health -= 1
+            
+            # Changed this to a 'while True' loop so players don't accidentally 
+            # surrender all their food by typing the wrong number or spelling "one". - Oakley
+            while True:
+                choice_bandit = input("Do you (1) Fight or (2) Surrender some supplies? ")
+                
+                if choice_bandit == "1":
+                    if random.random() < 0.5:
+                        print("You scared off the bandits! But you were injured. Health -1.")
+                        health -= 1
+                    else:
+                        print("The bandits overwhelmed you. Health -2, Food -10.")
+                        health -= 2
+                        food -= 10
+                    break 
+                    
+                elif choice_bandit == "2":
+                    print("You gave them some food to avoid a fight. Food -15.")
+                    food -= 15
+                    break 
+                    
                 else:
-                    print("The bandits overwhelmed you. Health -2, Food -10.")
-                    health -= 2
-                    food -= 10
-            else:
-                print("You gave them some food to avoid a fight. Food -15.")
-                food -= 15
+                    print("Invalid choice! The bandits are drawing their weapons. Pick 1 or 2.")
 
         elif event_roll == 3:
             print("\n>> EVENT: Broken wagon wheel! You lose time fixing it. Day +1, Food -5.")
