@@ -1,0 +1,24 @@
+
+
+
+
+
+
+
+User input, The program asks for user for their name and continuously prompts the user for inputs to determine their actions throughout the game.
+
+Decision Structures: Decision structures are implemented via the “what do you want to do” prompt at the beginning of the game. The program offers the user 5 options.
+
+Repetition structures: This is implemented via the While game not over loop. This ensures that the user is given prompts to continue the game until the conditions miles to go <= 0 are met then or the health <= 0 and ends the game
+
+Functions: function for the options menu (not done yet) For each event the program will use a function that uses pygame to give the program a graphical interface for each event.
+
+Read/write to files: (not done yet) using a save file to maintain data so the user can save and continue their game after closing the program.
+
+Lists: (not done yet) the program will use a list for the options to select from when prompted. (We will change from the current choice = input) method
+
+Error handling: We will use the error handling to make sure the game doesn’t fail from being provided bad data
+
+statistics: we will use Matplotlib to maintain user statistics and give the user their stats at the end of the game.
+
+Turtle graphics: We will have art for the game using turtle graphics.
