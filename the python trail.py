@@ -3,26 +3,22 @@
 
 #Oakley - Added change log at the top of the file - 3/22/2026
 #Oakley - Changed lines for "elif event_roll == 2" in random trail events to only allow intigers 1 and 2 to progress the code - 3/22/2026
-
+#Marcus - Made additions to the code and edits to meet the criteria for the project. (all edits or comments will be initialed with MGM)
 
 
 import random
 
 print("Welcome to the Python Trail!")
-player_name = input("What is your name, traveler? ")
+player_name = input("What is your name, traveler? ")                                                                    #This line meets the User Input criteria for the project -MGM
 
-# --- STARTING STATS ---
+# --- STARTING STATS ---                                                                                                #Lines 15-19 meets the Variables, constants, and data types requirement and the Variable scope requirement (uses global variables) for the project. -MGM
 miles_to_go = 650      # longer trail
 food = 75              # less starting food
 health = 5
 day = 1
 game_over = False
 
-print(f"\nGood luck, {player_name}! You have {miles_to_go} miles to go.")
-print("The trail is dangerous. Think carefully about your choices.\n")
-
-# --- MAIN GAME LOOP ---
-while not game_over:
+def mainPage():                                                                                                         #converted the main page that prints options/stats into a function to meet the criteria -MGM
     print("\n----------------------------")
     print(f"Day: {day} | Miles left: {miles_to_go}")
     print(f"Food: {food} | Health: {health}")
@@ -33,16 +29,24 @@ while not game_over:
     print("2. Rest")
     print("3. Hunt for food")
     print("4. Status")
-    print("5. Quit")
+    print("5. Kys")
+
+
+print(f"\nGood luck, {player_name}! You have {miles_to_go} miles to go.")
+print("The trail is dangerous. Think carefully about your choices.\n")
+
+# --- MAIN GAME LOOP ---
+while not game_over:                                                                                                    #This line includes the Repetition Structures used to keep the game running.
+    mainPage()
     choice = input("Pick 1-5: ")
 
     # --- ACTION 1: TRAVEL ---
-    if choice == "1":
+    if choice == "1":                                                                                                   #This line meets the Decision structures requirement for the project (uses an if statements and later an elif statement). -MGM
         miles_traveled = random.randint(18, 40)
         miles_to_go -= miles_traveled
         food -= 14      # traveling costs more food
         day += 1
-        print(f"\nYou traveled {miles_traveled} miles along the dusty trail.")
+        print(f"\nYou traveled {miles_traveled} miles along the dusty trail.")                                          #This line meets the Program output requirement for the project -MGM
 
     # --- ACTION 2: REST ---
     elif choice == "2":
