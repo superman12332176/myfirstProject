@@ -3,15 +3,18 @@
 
 #Oakley - Added change log at the top of the file - 3/22/2026
 #Oakley - Changed lines for "elif event_roll == 2" in random trail events to only allow intigers 1 and 2 to progress the code - 3/22/2026
-#helloooooo
+#Marcus - Added extra documetation to identify lines that meet the criteria of the program.
 
 
 import random
 
 print("Welcome to the Python Trail!")
+
+#This line meets the User Input Requirements of the program
 player_name = input("What is your name, traveler? ")
 
 # --- STARTING STATS ---
+#The starting stats meets the Variables, Cosntants, and data types requirements.
 miles_to_go = 650      # longer trail
 food = 75              # less starting food
 health = 5
@@ -23,6 +26,7 @@ print("The trail is dangerous. Think carefully about your choices.\n")
 
 # --- MAIN GAME LOOP ---
 while not game_over:
+#The next 4 lines meet the Program output
     print("\n----------------------------")
     print(f"Day: {day} | Miles left: {miles_to_go}")
     print(f"Food: {food} | Health: {health}")
