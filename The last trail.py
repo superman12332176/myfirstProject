@@ -1,0 +1,314 @@
+import pygame, sys, random
+
+pygame.init()
+
+# =========================
+# BASIC SETTINGS 
+# =========================
+WIDTH, HEIGHT = 800, 800   # change window size
+FPS = 60                   # lower = slower game, higher = smoother
+
+# PUT YOUR IMAGE PATHS HERE
+STORY_IMAGE = "assets/story.png"   # replace with your image
+# Example: "assets/bandits.png"
+
+# =========================
+# PLAYER SETTINGS 
+# =========================
+player = {
+    "name": "",
+    "health": 5,      # increase for easier game
+    "food": 75,       # more = easier survival
+    "miles": 300,     # lower = shorter game
+    "gold": 100       # starting money
+}
+
+# =========================
+# GAME STATE
+# =========================
+game_state = "name"
+game_over = False
+
+# =========================
+# SETUP
+# =========================
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+clock = pygame.time.Clock()
+font = pygame.font.SysFont("Arial", 26)
+
+# =========================
+# BUTTON CLASS (REUSE EVERYWHERE)
+# =========================
+class Button:
+    def __init__(self, text, x, y, w, h):
+        self.text = text
+        self.rect = pygame.Rect(x,y,w,h)
+
+    def draw(self):
+        pygame.draw.rect(screen,(70,70,70),self.rect)
+        pygame.draw.rect(screen,(255,255,255),self.rect,2)
+        txt = font.render(self.text,True,(255,255,255))
+        screen.blit(txt,(self.rect.x+10,self.rect.y+10))
+
+    def click(self,event):
+        return event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos)
+
+# =========================
+# NAME INPUT
+# =========================
+def run_name():
+    global game_state
+    name = ""
+
+    while True:
+        screen.fill("black")
+        txt = font.render("Enter your name:",True,"white")
+        name_txt = font.render(name,True,"yellow")
+
+        screen.blit(txt,(250,300))
+        screen.blit(name_txt,(250,350))
+
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                pygame.quit(); sys.exit()
+
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_RETURN:
+                    player["name"] = name
+                    return "story"
+                elif e.key == pygame.K_BACKSPACE:
+                    name = name[:-1]
+                else:
+                    name += e.unicode
+
+        pygame.display.flip()
+        clock.tick(FPS)
+
+# =========================
+# STORY SCREEN (IMAGE + TEXT)
+# =========================
+def run_story():
+    global game_state
+
+    # CHANGE THIS TEXT FOR STORY
+    text = "You begin your journey across the trail..."
+    
+    # LOAD IMAGE HERE
+    try:
+        img = pygame.image.load(STORY_IMAGE)
+        img = pygame.transform.scale(img,(700,400))
+    except:
+        img = None
+
+    btn = Button("Continue",300,700,200,50)
+
+    while True:
+        screen.fill("black")
+
+        # draw image if exists
+        if img:
+            screen.blit(img,(50,100))  # change position
+
+        screen.blit(font.render(text,True,"white"),(100,550))
+
+        btn.draw()
+
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                pygame.quit(); sys.exit()
+
+            if btn.click(e):
+                return "travel"
+
+        pygame.display.flip()
+        clock.tick(FPS)
+
+# =========================
+# RANDOM EVENTS 
+# =========================
+def random_event():
+    roll = random.randint(1,6)  # increase range to add more events
+
+    if roll == 1:
+        player["food"] -= 5
+        return "Storm hit! Food -5"
+
+    elif roll == 2:
+        player["health"] -= 1
+        return "Sickness! Health -1"
+
+    elif roll == 3:
+        player["gold"] += 20
+        return "Found supplies! Gold +20"
+
+    elif roll == 4:
+        player["food"] += 15
+        return "Good hunt! Food +15"
+
+    return ""
+
+# =========================
+# MERCHANT (random)
+# =========================
+ITEMS = [("Food",10),("Medkit",25),("Ammo",15)]
+
+def run_merchant():
+    global game_state
+
+    shop = random.sample(ITEMS,3)  # random items each visit
+    buttons = []
+
+    for i,(n,p) in enumerate(shop):
+        buttons.append((Button(f"{n} ${p}",100,100+i*80,250,50),n,p))
+
+    while True:
+        screen.fill("black")
+
+        screen.blit(font.render(f"Gold:{player['gold']}",True,"yellow"),(20,20))
+
+        for b,n,p in buttons:
+            b.draw()
+
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                pygame.quit(); sys.exit()
+
+            for b,n,p in buttons:
+                if b.click(e):
+                    if player["gold"] >= p:
+                        player["gold"] -= p
+                        return "inventory"  # FORCE INVENTORY AFTER BUY
+
+        pygame.display.flip()
+        clock.tick(FPS)
+
+# =========================
+# INVENTORY 
+# =========================
+def run_inventory():
+    back = Button("Back",600,700,150,50)
+
+    while True:
+        screen.fill((30,30,30))
+
+        # Inventory system 
+        for y in range(5):   # change grid size
+            for x in range(8):
+                pygame.draw.rect(screen,(80,80,80),(50+x*50,50+y*50,45,45))
+
+        back.draw()
+
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                pygame.quit(); sys.exit()
+
+            if back.click(e):
+                return "travel"
+
+        pygame.display.flip()
+        clock.tick(FPS)
+
+# =========================
+# TRAVEL SYSTEM
+# =========================
+def run_travel():
+    msg = ""
+
+    travel = Button("Travel",50,650,150,50)
+    rest   = Button("Rest",250,650,150,50)
+    hunt   = Button("Hunt",450,650,150,50)
+
+    while True:
+        screen.fill((20,20,20))
+
+        # stats
+        stats = f"{player['name']} | HP:{player['health']} Food:{player['food']} Miles:{player['miles']} Gold:{player['gold']}"
+        screen.blit(font.render(stats,True,"white"),(20,20))
+
+        screen.blit(font.render(msg,True,"red"),(20,80))
+
+        for b in [travel,rest,hunt]:
+            b.draw()
+
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                pygame.quit(); sys.exit()
+
+            if travel.click(e):
+                miles = random.randint(10,30)   # change speed of travel
+                player["miles"] -= miles
+                player["food"] -= 10
+
+                msg = f"Traveled {miles} miles"
+
+                # RANDOM EVENT AFTER ACTION
+                msg += " | " + random_event()
+
+                # RANDOM MERCHANT SPAWN (LOW CHANCE)
+                if random.random() < 0.2:   # increase chance if wanted
+                    return "merchant"
+
+            if rest.click(e):
+                player["health"] = min(5, player["health"]+1)
+                player["food"] -= 5
+                msg = "Rested"
+
+            if hunt.click(e):
+                if random.random() < 0.7:
+                    player["food"] += random.randint(10,25)
+                    msg = "Hunt success"
+                else:
+                    player["health"] -= 1
+                    msg = "Injured hunting"
+
+        # =========================
+        # WIN / LOSE (ACTUALLY ENDS GAME)
+        # =========================
+        if player["miles"] <= 0:
+            return "win"
+
+        if player["health"] <= 0:
+            return "lose"
+
+        pygame.display.flip()
+        clock.tick(FPS)
+
+# =========================
+# END SCREENS
+# =========================
+def run_end(text):
+    while True:
+        screen.fill("black")
+        screen.blit(font.render(text,True,"white"),(300,350))
+
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                pygame.quit(); sys.exit()
+
+        pygame.display.flip()
+        clock.tick(FPS)
+
+# =========================
+# MAIN LOOP
+# =========================
+while True:
+    if game_state == "name":
+        game_state = run_name()
+
+    elif game_state == "story":
+        game_state = run_story()
+
+    elif game_state == "travel":
+        game_state = run_travel()
+
+    elif game_state == "merchant":
+        game_state = run_merchant()
+
+    elif game_state == "inventory":
+        game_state = run_inventory()
+
+    elif game_state == "win":
+        run_end("YOU SURVIVED THE TRAIL")
+
+    elif game_state == "lose":
+        run_end("YOU DIED ON THE TRAIL")
