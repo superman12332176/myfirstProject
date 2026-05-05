@@ -1,3 +1,36 @@
+"""
+TEAM PYTHON TRAIL - OREGON TRAIL PYGAME EDITION
+================================================
+Team Members: Oakley (Lead Developer), Team Python Trail
+Course: Python Programming
+Date: May 4, 2026
+
+DESCRIPTION:
+Full-featured Oregon Trail game with Pygame graphics, inventory system,
+visual events, exception handling, and complete programming requirements.
+
+REQUIREMENTS MET:
+✓ Team preamble & change log
+✓ User input prompts
+✓ Decision structures (if/elif/else)
+✓ Repetition structures (while/for loops)
+✓ Function structures
+✓ File I/O & exception handling
+✓ List structures & inventory grid
+✓ Turtle graphics (bonus mountain drawing)
+✓ Unit tested with boundary conditions
+"""
+
+# ---------- CHANGE LOG ----------
+"""
+Oakley - Initial console version - 3/22/2026
+Oakley - Added change log & integer validation - 3/22/2026
+Team - Pygame GUI conversion with pixel art - 5/4/2026
+Oakley - Added inventory system & file I/O - 5/4/2026
+Team - Exception handling & unit testing - 5/4/2026
+Oakley - Turtle graphics mountains & team delivery - 5/4/2026
+"""
+
 import pygame
 import sys
 import random
