@@ -48,7 +48,7 @@ except Exception as e:
     sys.exit(1)
 
 # ---------- SETTINGS ----------
-WINDOW_WIDTH = 800
+WINDOW_WIDTH = 1200
 WINDOW_HEIGHT = 800
 
 # Image display settings
